@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>View Tasks</title>
+  <style>
+    body { text-align:center; font-family: Arial; }
+    li { margin:10px; }
+    button { margin-left:10px; }
+  </style>
+</head>
+<body>
+
+<h2>📄 Your Tasks</h2>
+
+<ul id="list"></ul>
+
+<br>
+<a href="planner.html">➕ Add More Tasks</a><br><br>
+<a href="index.html">⬅ Home</a>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+let list = document.getElementById("list");
+
+function showTasks(){
+  list.innerHTML = "";
+
+  if(tasks.length === 0){
+    list.innerHTML = "<p>No tasks available</p>";
+    return;
+  }
+
+  tasks.forEach((t, i) => {
+    let li = document.createElement("li");
+
+    li.innerHTML = `
+      ${t}
+      <button onclick="deleteTask(${i})">❌</button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+function deleteTask(i){
+  tasks.splice(i, 1);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  showTasks();
+}
+
+showTasks();
+</script>
+
+</body>
+</html>
